@@ -7,7 +7,6 @@ import connectDb from "./Config/db.js";
 import { limiter } from "./Utils/redis.js"; 
 import userRouter from "./Routes/user.routes.js";
 import todoRouter from "./Routes/todo.routes.js";
-
 dotenv.config();
 const server = express();
 
