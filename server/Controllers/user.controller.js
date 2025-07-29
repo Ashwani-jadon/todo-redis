@@ -1,7 +1,6 @@
 import { User } from "../Models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-// import redis from "../Utils/redis.js";
 
 export const signUp = async (req, res) => {
   const { fullName, email, password } = req.body;

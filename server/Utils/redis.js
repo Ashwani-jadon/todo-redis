@@ -1,13 +1,20 @@
 // redis.js
-import Redis from "ioredis";
+import rateLimit from 'express-rate-limit';
+import RedisStore from 'rate-limit-redis';
+import Redis from 'ioredis';
 
-const redis = new Redis({
-  host: "127.0.0.1",  // or your Redis host
-  port: 6379,
-  // password: "your_redis_password", // if applicable
+// Create Redis client
+const redisClient = new Redis();
+
+// Export rate limiter middleware
+export const limiter = rateLimit({
+  store: new RedisStore({
+    sendCommand: (...args) => redisClient.call(...args),
+  }),
+  windowMs: 60*60 * 1000, // 1 hour window , 100 request per hour.
+  max: 100,
+  message: "Too many requests, please try again later.",
 });
 
-redis.on("connect", () => console.log("Redis connected ✅"));
-redis.on("error", (err) => console.log("Redis error ❌", err));
+export default redisClient;
 
-export default redis;
